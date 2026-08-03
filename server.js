@@ -18,6 +18,7 @@ app.get("/channels", (req, res) => {
 
 createWSServer(server, client);
 
-server.listen(3001, () => {
-  console.log("Discord backend running on port 3001");
+const PORT = process.env.PORT || 3001;
+server.listen(PORT, '0.0.0.0', () => {
+  console.log("Discord backend running on port " + PORT);
 });
