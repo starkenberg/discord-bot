@@ -5,61 +5,6 @@
   // DOM
   const container = document.getElementById("discord-chat");
   container.innerHTML = `
-    <style>
-      #discord-wrapper {
-        background:#2f3136;
-        color:#dcddde;
-        padding:15px;
-        border-radius:8px;
-        font-family: Arial, sans-serif;
-        max-width:100%;
-      }
-      #discord-messages {
-        height:300px;
-        overflow-y:auto;
-        border:1px solid #202225;
-        padding:10px;
-        background:#36393f;
-        border-radius:6px;
-      }
-      #discord-input {
-        width:100%;
-        padding:10px;
-        margin-top:10px;
-        border-radius:6px;
-        border:none;
-        background:#40444b;
-        color:white;
-      }
-      #discord-channel-select {
-        width:100%;
-        padding:8px;
-        margin-bottom:10px;
-        border-radius:6px;
-        background:#40444b;
-        color:white;
-        border:none;
-      }
-      .discord-message {
-        display:flex;
-        gap:10px;
-        margin-bottom:10px;
-      }
-      .discord-avatar {
-        width:32px;
-        height:32px;
-        border-radius:50%;
-      }
-      .discord-content {
-        display:flex;
-        flex-direction:column;
-      }
-      .discord-author {
-        font-weight:bold;
-        margin-bottom:2px;
-      }
-    </style>
-
     <div id="discord-wrapper">
       <select id="discord-channel-select"></select>
       <div id="discord-messages"></div>
