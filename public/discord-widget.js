@@ -1,6 +1,6 @@
 (async function () {
-  const API_URL = "https://discord-bot-veu3.onrender.com";
-  const WS_URL = "wss://discord-bot-veu3.onrender.com";
+  const API_URL = "https://discord-bot-vcu3.onrender.com";
+  const WS_URL = "wss://discord-bot-vcu3.onrender.com";
 
   // DOM
   const container = document.getElementById("discord-chat");
