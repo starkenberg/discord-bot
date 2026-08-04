@@ -16,6 +16,15 @@ function createWSServer(server, client) {
     });
   };
 
+  client.on("typingStart", typing => {
+    wss.broadcast({
+      type: "typing",
+      channel: typing.channel.id,
+      user: typing.user.username
+    });
+  });
+
+
   client.on("messageCreate", msg => {
     console.log("MESSAGE EVENT:", msg.content);
     wss.broadcast({
@@ -34,6 +43,17 @@ function createWSServer(server, client) {
   wss.on("connection", ws => {
     ws.on("message", async raw => {
       const data = JSON.parse(raw);
+
+      if (data.type === "typing") {
+        if (data.channel !== currentChannel) return;
+
+        typingEl.textContent = `${data.user} skriver...`;
+
+        clearTimeout(window._typingTimeout);
+        window._typingTimeout = setTimeout(() => {
+          typingEl.textContent = "";
+        }, 2000);
+      }
 
       if (data.type === "send") {
         const channel = client.channels.cache.get(data.channel);

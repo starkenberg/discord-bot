@@ -4,6 +4,8 @@
 
   // DOM
   const container = document.getElementById("discord-chat");
+  const typingEl = document.getElementById("discord-typing");
+
   container.innerHTML = `
     <div id="discord-wrapper">
       <div id="discord-sidebar">
@@ -11,6 +13,7 @@
       </div>
       <div id="discord-chat-area">
         <div id="discord-messages"></div>
+        <div id="discord-typing"></div>
         <div id="discord-input-area">
           <input id="discord-input" placeholder="Skriv ett meddelande..." />
         </div>
