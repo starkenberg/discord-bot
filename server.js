@@ -30,8 +30,14 @@ app.get("/channels", async (req, res) => {
 
   const channels = guild.channels.cache
     .filter(c => c.type === 0)
-    .map(c => ({ id: c.id, name: c.name }));
+    .map(c => ({
+      id: c.id,
+      name: c.name,
+      parentId: c.parentId,
+      parentName: c.parent?.name || null
+    }));
 
+  console.log(channels);
   res.json(channels);
 });
 
