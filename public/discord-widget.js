@@ -4,6 +4,7 @@
 
   // DOM - Elements
   const container = document.getElementById("discord-chat");
+  const requestedCategory = container.dataset.category || null;
   const requestedChannel = container.dataset.channel || null;
   const typingEl = document.getElementById("discord-typing");
 
@@ -39,10 +40,20 @@
   // Hämta kanaler
   const channels = await fetch(API_URL + "/channels").then(r => r.json());
 
-  let currentChannel;
+  // Filtrera på kategori om angiven
+  let visibleChannels = channels;
 
+  if (requestedCategory) {
+    visibleChannels = channels.filter(
+      c => c.parentName === requestedCategory
+    );
+  }
+
+  // Bestäm vilken kanal som ska öppnas
+  let currentChannel = null;
+
+  // 1. Om en specifik kanal önskas
   if (requestedChannel) {
-
     const found = channels.find(c =>
       c.name.toLowerCase() === requestedChannel.toLowerCase()
     );
@@ -52,12 +63,18 @@
     }
   }
 
-  if (!currentChannel) {
+  // 2. Annars första kanal i vald kategori
+  if (!currentChannel && visibleChannels.length) {
+    currentChannel = visibleChannels[0].id;
+  }
+
+  // 3. Sista fallback
+  if (!currentChannel && channels.length) {
     currentChannel = channels[0].id;
   }
 
   // Bygg kanal-lista i sidebar
-  channels.forEach(ch => {
+  visibleChannels.forEach(ch => {
 
     const el = document.createElement("div");
 
