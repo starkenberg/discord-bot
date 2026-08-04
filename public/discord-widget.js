@@ -87,9 +87,17 @@
       const reactionsEl = msgEl.querySelector(".discord-reactions");
       if (!reactionsEl) return;
 
-      const span = document.createElement("span");
-      span.textContent = data.emoji;
-      reactionsEl.appendChild(span);
+      let reaction = reactionsEl.querySelector(
+        `[data-emoji="${data.emoji}"]`
+      );
+
+      if (!reaction) {
+        reaction = document.createElement("span");
+        reaction.dataset.emoji = data.emoji;
+        reactionsEl.appendChild(reaction);
+      }
+
+      reaction.textContent = `${data.emoji} ${data.count}`;
     }
 
   }; // End of ws-onmessage
@@ -161,6 +169,19 @@
     `;
 
     messagesEl.appendChild(msg);
+
+    if (data.reactions) {
+      const reactionsEl = msg.querySelector(".discord-reactions");
+
+      data.reactions.forEach(r => {
+        const span = document.createElement("span");
+        span.className = "discord-reaction";
+        span.dataset.emoji = r.emoji;
+        span.textContent = `${r.emoji} ${r.count}`;
+
+        reactionsEl.appendChild(span);
+      });
+    }
 
     // --- Reaction logic ---
     const addBtn = msg.querySelector(".reaction-add");

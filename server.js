@@ -47,7 +47,12 @@ app.get("/messages/:channelId", async (req, res) => {
       avatar: m.author.displayAvatarURL()
     },
     content: m.content,
-    timestamp: m.createdTimestamp
+    timestamp: m.createdTimestamp,
+
+    reactions: m.reactions.cache.map(r => ({
+      emoji: r.emoji.name,
+      count: r.count
+    }))
   }));
 
   res.json(formatted.reverse());
