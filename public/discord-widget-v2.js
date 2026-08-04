@@ -362,9 +362,59 @@
 
                 const data = JSON.parse(event.data);
 
-                console.log("[Discord Widget] Incoming:", data);
+                 this.handleSocketMessage(data);
 
             };
+
+        }
+
+        /**
+         * handleSocketMessage - Tar emot alla inkommande WebSocket-events.
+         */
+        handleSocketMessage(data){
+
+           switch(data.type){
+
+                case "message":
+                    this.handleMessage(data);
+                    break;
+
+                case "typing":
+                    this.handleTyping(data);
+                    break;
+
+                case "reaction":
+                    this.handleReaction(data);
+                    break;
+
+            }
+
+        }
+
+        /**
+         * Hanterar nya meddelanden.
+         */
+        handleMessage(data){
+
+            console.log("Message", data);
+
+        }
+
+        /**
+         * Hanterar typing-events.
+         */
+        handleTyping(data){
+
+            console.log("Typing", data);
+
+        }
+
+        /**
+         * Hanterar reactions.
+         */
+        handleReaction(data){
+
+            console.log("Reaction", data);
 
         }
 
