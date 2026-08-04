@@ -17,6 +17,7 @@ function createWSServer(server, client) {
   };
 
   client.on("messageCreate", msg => {
+    console.log("MESSAGE EVENT:", msg.content);
     wss.broadcast({
       type: "message",
       channel: msg.channel.id,
