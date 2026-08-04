@@ -7,7 +7,7 @@ const client = require("./bot");
 const createWSServer = require("./ws");
 
 const app = express();
-app.use(cors())
+app.use(cors());
 const server = http.createServer(app);
 
 // Static files (widget)
