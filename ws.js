@@ -40,6 +40,16 @@ function createWSServer(server, client) {
     });
   });
 
+  client.on("messageReactionAdd", (reaction, user) => {
+    wss.broadcast({
+      type: "reaction",
+      channel: reaction.message.channel.id,
+      messageId: reaction.message.id,
+      emoji: reaction.emoji.name,
+      user: user.username
+    });
+  });
+
   wss.on("connection", ws => {
     ws.on("message", async raw => {
       const data = JSON.parse(raw);
@@ -59,6 +69,24 @@ function createWSServer(server, client) {
         const channel = client.channels.cache.get(data.channel);
         await channel.send(data.content);
       }
+
+      if (data.type === "reaction") {
+        if (data.channel !== currentChannel) return;
+
+        // Hitta rätt meddelande
+        const msgEl = document.querySelector(`[data-id="${data.messageId}"]`);
+        if (!msgEl) return;
+
+        // Hitta reaction-barens container
+        const reactionsEl = msgEl.querySelector(".discord-reactions");
+        if (!reactionsEl) return;
+
+        // Lägg till reaction
+        const span = document.createElement("span");
+        span.textContent = data.emoji;
+        reactionsEl.appendChild(span);
+      }
+      
     });
   });
 

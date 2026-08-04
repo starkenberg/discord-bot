@@ -95,6 +95,21 @@
       <div class="discord-content">
         <div class="discord-author">${data.author.name}</div>
         <div>${data.content}</div>
+
+        <div class="discord-reaction-bar">
+          <div class="discord-reactions"></div>
+          <div class="reaction-add">+</div>
+
+          <div class="reaction-flyout">
+            <span class="reaction-emoji">😀</span>
+            <span class="reaction-emoji">😍</span>
+            <span class="reaction-emoji">😂</span>
+            <span class="reaction-emoji">👍</span>
+            <span class="reaction-emoji">🔥</span>
+            <span class="reaction-emoji">🎉</span>
+            <span class="reaction-emoji">❤️</span>
+          </div>
+        </div>
       </div>
     `;
 
