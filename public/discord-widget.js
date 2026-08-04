@@ -20,19 +20,33 @@
 
   container.innerHTML = `
     <div id="discord-wrapper">
-      <div id="discord-sidebar">
+
+      <aside id="discord-sidebar">
+        <div id="discord-server-header"></div>
+
         <div id="discord-channel-list"></div>
-      </div>
-      <div id="discord-chat-header">
-        <div id="discord-channel-title"></div>
-        <div id="discord-channel-topic"></div>
-      </div>
-        <div id="discord-messages"></div>
+      </aside>
+
+      <main id="discord-chat-area">
+
+        <header id="discord-chat-header">
+          <div id="discord-channel-title"></div>
+          <div id="discord-channel-topic"></div>
+        </header>
+
+        <section id="discord-messages"></section>
+
         <div id="discord-typing"></div>
-        <div id="discord-input-area">
-          <input id="discord-input" placeholder="Skriv ett meddelande..." />
-        </div>
-      </div>
+
+        <footer id="discord-input-area">
+          <input
+            id="discord-input"
+            placeholder="Skriv ett meddelande..."
+          />
+        </footer>
+
+      </main>
+
     </div>
   `;
 
@@ -183,7 +197,7 @@
       channelTopicEl.textContent = ch.parentName || "";
 
     }
-  
+
   async function selectChannel(id) {
     currentChannel = id;
 

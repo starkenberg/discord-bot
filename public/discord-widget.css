@@ -1,0 +1,493 @@
+/* ==========================================================================
+   Discord Widget
+   ========================================================================== */
+
+:root{
+
+    --discord-bg:#313338;
+    --discord-bg-dark:#2b2d31;
+    --discord-sidebar:#202225;
+    --discord-input:#40444b;
+
+    --discord-text:#ffffff;
+    --discord-text-muted:#b5bac1;
+
+    --discord-border:#3f4147;
+
+    --discord-radius:6px;
+
+}
+
+/* ==========================================================================
+   Reset
+   ========================================================================== */
+
+*,
+*::before,
+*::after{
+
+    box-sizing:border-box;
+
+}
+
+/* ==========================================================================
+   Wrapper
+   ========================================================================== */
+
+#discord-wrapper{
+
+    display:flex;
+
+    width:100%;
+    height:500px;
+
+    overflow:hidden;
+
+    background:var(--discord-bg);
+
+    color:var(--discord-text);
+
+    font-family:system-ui,sans-serif;
+
+}
+
+/* ==========================================================================
+   Sidebar
+   ========================================================================== */
+
+#discord-sidebar{
+
+    width:240px;
+
+    flex-shrink:0;
+
+    background:var(--discord-sidebar);
+
+    overflow-y:auto;
+
+    border-right:1px solid var(--discord-border);
+
+}
+
+#discord-channel-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    padding:10px;
+
+}
+
+.channel-item{
+
+    padding:10px 12px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+    color:var(--discord-text-muted);
+
+    transition:.15s;
+
+}
+
+.channel-item:hover{
+
+    background:var(--discord-bg);
+
+    color:var(--discord-text);
+
+}
+
+.channel-item.active{
+
+    background:#404249;
+
+    color:#fff;
+
+}
+
+/* ==========================================================================
+   Chat Area
+   ========================================================================== */
+
+#discord-chat-area{
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    min-width:0;
+
+    background:var(--discord-bg);
+
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+#discord-chat-header{
+
+    flex-shrink:0;
+
+    padding:18px 20px;
+
+    background:var(--discord-bg);
+
+    border-bottom:1px solid var(--discord-border);
+
+}
+
+#discord-channel-title{
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+#discord-channel-topic{
+
+    margin-top:4px;
+
+    font-size:13px;
+
+    color:var(--discord-text-muted);
+
+}
+
+/* ==========================================================================
+   Messages
+   ========================================================================== */
+
+#discord-messages{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:20px;
+
+}
+
+.discord-message{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    margin-bottom:18px;
+
+}
+
+.discord-avatar{
+
+    width:40px;
+    height:40px;
+
+    border-radius:50%;
+
+    margin-right:12px;
+
+    flex-shrink:0;
+
+}
+
+.discord-content{
+
+    flex:1;
+
+    min-width:0;
+
+}
+
+.discord-author{
+
+    font-weight:700;
+
+    margin-bottom:2px;
+
+}
+
+/* ==========================================================================
+   Typing
+   ========================================================================== */
+
+#discord-typing{
+
+    flex-shrink:0;
+
+    min-height:22px;
+
+    padding:0 20px 8px;
+
+    color:var(--discord-text-muted);
+
+    font-size:13px;
+
+    font-style:italic;
+
+}
+
+/* ==========================================================================
+   Input
+   ========================================================================== */
+
+#discord-input-area{
+
+    flex-shrink:0;
+
+    padding:16px 20px;
+
+    background:var(--discord-bg);
+
+    border-top:1px solid var(--discord-border);
+
+}
+
+#discord-input{
+
+    width:100%;
+
+    display:block;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:var(--discord-radius);
+
+    background:var(--discord-input);
+
+    color:#fff;
+
+    outline:none;
+
+}
+
+#discord-input::placeholder{
+
+    color:var(--discord-text-muted);
+
+}
+
+/* ==========================================================================
+   Reactions
+   ========================================================================== */
+
+.discord-reaction-bar{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    margin-top:8px;
+
+    position:relative;
+
+}
+
+.discord-reaction{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:4px;
+
+    padding:3px 8px;
+
+    background:#3a3c43;
+
+    border-radius:999px;
+
+    cursor:pointer;
+
+    font-size:14px;
+
+}
+
+.discord-reactions{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:6px;
+
+}
+
+.reaction-add{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    width:24px;
+
+    height:24px;
+
+    background:#3a3c43;
+
+    border-radius:999px;
+
+    cursor:pointer;
+
+    transition:.15s;
+
+}
+
+.reaction-add:hover{
+
+    background:#4b4d55;
+
+}
+
+/* ==========================================================================
+   Emoji Picker
+   ========================================================================== */
+
+.emoji-picker{
+
+    display:none;
+
+    position:absolute;
+
+    bottom:36px;
+
+    left:0;
+
+    width:280px;
+
+    background:var(--discord-bg);
+
+    border:1px solid var(--discord-border);
+
+    border-radius:10px;
+
+    padding:10px;
+
+    box-shadow:0 8px 30px rgba(0,0,0,.45);
+
+    z-index:999;
+
+}
+
+.emoji-search{
+
+    width:100%;
+
+    padding:8px;
+
+    border:none;
+
+    border-radius:6px;
+
+    background:var(--discord-input);
+
+    color:white;
+
+    margin-bottom:10px;
+
+    outline:none;
+
+}
+
+.emoji-categories{
+
+    display:flex;
+
+    gap:4px;
+
+    margin-bottom:10px;
+
+}
+
+.emoji-categories button{
+
+    background:var(--discord-input);
+
+    color:white;
+
+    border:none;
+
+    border-radius:6px;
+
+    padding:5px 8px;
+
+    cursor:pointer;
+
+}
+
+.emoji-categories button:hover{
+
+    background:#50545d;
+
+}
+
+.emoji-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(6,1fr);
+
+    gap:8px;
+
+    max-height:220px;
+
+    overflow-y:auto;
+
+}
+
+.emoji-grid span{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    transition:.15s;
+
+}
+
+.emoji-grid span:hover{
+
+    transform:scale(1.2);
+
+}
+
+/* ==========================================================================
+   Scrollbars
+   ========================================================================== */
+
+#discord-sidebar::-webkit-scrollbar,
+#discord-messages::-webkit-scrollbar,
+.emoji-grid::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+#discord-sidebar::-webkit-scrollbar-thumb,
+#discord-messages::-webkit-scrollbar-thumb,
+.emoji-grid::-webkit-scrollbar-thumb{
+
+    background:#1e1f22;
+
+    border-radius:20px;
+
+}
