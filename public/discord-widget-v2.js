@@ -15,14 +15,6 @@
         flags:["🇸🇪","🇺🇸","🇬🇧","🇩🇰","🇫🇮","🇳🇴","🇩🇪","🇫🇷"]
     };
 
-    const widgets = document.querySelectorAll(".discord-widget");
-
-    widgets.forEach(widget => {
-
-        new DiscordWidget(widget);
-
-    });
-
     class DiscordWidget {
 
         constructor(container){
@@ -377,5 +369,13 @@
         }
 
     }
+
+    const widgets = document.querySelectorAll(".discord-widget");
+
+    widgets.forEach(widget => {
+
+        new DiscordWidget(widget);
+
+    });
 
 })();
