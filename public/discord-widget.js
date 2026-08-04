@@ -6,6 +6,17 @@
   const container = document.getElementById("discord-chat");
   const typingEl = document.getElementById("discord-typing");
 
+  const EMOJI_SETS = {
+    smileys: ["😀","😁","😂","🤣","😊","😎","😍","😘","😡","😭","😱","🤔"],
+    animals: ["🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐨","🐯","🦁"],
+    food: ["🍏","🍎","🍔","🍟","🍕","🌭","🍿","🍣","🍪","🍩"],
+    activities: ["⚽","🏀","🏈","⚾","🎾","🏐","🎱","🏓","🏸"],
+    objects: ["💡","📱","💻","🖥️","⌨️","🖱️","💾","📷"],
+    symbols: ["❤️","💔","💯","🔥","✨","⭐","⚡","💥"],
+    flags: ["🇸🇪","🇺🇸","🇬🇧","🇩🇰","🇫🇮","🇳🇴","🇩🇪","🇫🇷"]
+  };
+
+
   container.innerHTML = `
     <div id="discord-wrapper">
       <div id="discord-sidebar">
@@ -48,12 +59,41 @@
   ws.onmessage = event => {
     const data = JSON.parse(event.data);
 
+    // Nya meddelanden
     if (data.type === "message") {
       if (data.channel !== currentChannel) return;
       renderMessage(data);
       messagesEl.scrollTop = messagesEl.scrollHeight;
     }
-  };
+
+    // Typing-indikator
+    if (data.type === "typing") {
+      if (data.channel !== currentChannel) return;
+
+      typingEl.textContent = `${data.user} skriver…`;
+
+      clearTimeout(window._typingTimeout);
+      window._typingTimeout = setTimeout(() => {
+        typingEl.textContent = "";
+      }, 2000);
+    }
+
+    // Reactions från Discord
+    if (data.type === "reaction") {
+      if (data.channel !== currentChannel) return;
+
+      const msgEl = document.querySelector(`[data-id="${data.messageId}"]`);
+      if (!msgEl) return;
+
+      const reactionsEl = msgEl.querySelector(".discord-reactions");
+      if (!reactionsEl) return;
+
+      const span = document.createElement("span");
+      span.textContent = data.emoji;
+      reactionsEl.appendChild(span);
+    }
+
+  }; // End of ws-onmessage
 
   // Skicka meddelande
   inputEl.addEventListener("keydown", e => {
@@ -89,6 +129,7 @@
   function renderMessage(data) {
     const msg = document.createElement("div");
     msg.className = "discord-message";
+    msg.dataset.id = data.id;
 
     msg.innerHTML = `
       <img class="discord-avatar" src="${data.author.avatar}" />
@@ -100,19 +141,97 @@
           <div class="discord-reactions"></div>
           <div class="reaction-add">+</div>
 
-          <div class="reaction-flyout">
-            <span class="reaction-emoji">😀</span>
-            <span class="reaction-emoji">😍</span>
-            <span class="reaction-emoji">😂</span>
-            <span class="reaction-emoji">👍</span>
-            <span class="reaction-emoji">🔥</span>
-            <span class="reaction-emoji">🎉</span>
-            <span class="reaction-emoji">❤️</span>
+          <div class="emoji-picker">
+            <input class="emoji-search" placeholder="Sök emojis..." />
+
+            <div class="emoji-categories">
+              <button data-cat="smileys">😀</button>
+              <button data-cat="animals">🐶</button>
+              <button data-cat="food">🍔</button>
+              <button data-cat="activities">⚽</button>
+              <button data-cat="objects">💡</button>
+              <button data-cat="symbols">❤️</button>
+              <button data-cat="flags">🏳️</button>
+              <button data-cat="custom">✨</button>
+            </div>
+
+            <div class="emoji-grid"></div>
           </div>
         </div>
       </div>
     `;
 
     messagesEl.appendChild(msg);
+
+    // --- Reaction logic ---
+    const addBtn = msg.querySelector(".reaction-add");
+    const picker = msg.querySelector(".emoji-picker");
+    const emojiGrid = msg.querySelector(".emoji-grid");
+    const emojiSearch = msg.querySelector(".emoji-search");
+
+    // Ladda standardkategori vid öppning
+    loadEmojiCategory("smileys");
+
+    // Öppna emoji-picker
+    addBtn.onclick = () => {
+      picker.style.display = "block";
+    };
+
+    // Stäng när man klickar utanför
+    document.addEventListener("click", e => {
+      if (!msg.contains(e.target)) {
+        picker.style.display = "none";
+      }
+    });
+
+    // Kategoriknappar
+    msg.querySelectorAll(".emoji-categories button").forEach(btn => {
+      btn.onclick = () => {
+        const cat = btn.dataset.cat;
+        loadEmojiCategory(cat);
+      };
+    });
+
+    // Sök emojis
+    emojiSearch.oninput = () => {
+      const q = emojiSearch.value.toLowerCase();
+      emojiGrid.innerHTML = "";
+
+      Object.values(EMOJI_SETS).flat().forEach(e => {
+        if (e.toLowerCase().includes(q)) {
+          const span = document.createElement("span");
+          span.textContent = e;
+          span.onclick = () => {
+            ws.send(JSON.stringify({
+              type: "reaction",
+              channel: currentChannel,
+              messageId: data.id,
+              emoji: e
+            }));
+            picker.style.display = "none";
+          };
+          emojiGrid.appendChild(span);
+        }
+      });
+    };
+
+    // Funktion för att ladda kategori
+    function loadEmojiCategory(cat) {
+      emojiGrid.innerHTML = "";
+      EMOJI_SETS[cat].forEach(e => {
+        const span = document.createElement("span");
+        span.textContent = e;
+        span.onclick = () => {
+          ws.send(JSON.stringify({
+            type: "reaction",
+            channel: currentChannel,
+            messageId: data.id,
+            emoji: e
+          }));
+          picker.style.display = "none";
+        };
+        emojiGrid.appendChild(span);
+      });
+    }
   }
 })();

@@ -4,7 +4,6 @@ function createWSServer(server, client) {
   const wss = new WebSocket.Server({
     server,
     verifyClient: (info, done) => {
-      // Tillåt ALLA origins, även http://localhost
       done(true);
     }
   });
@@ -16,6 +15,7 @@ function createWSServer(server, client) {
     });
   };
 
+  // Typing event → skickas till frontend
   client.on("typingStart", typing => {
     wss.broadcast({
       type: "typing",
@@ -24,9 +24,8 @@ function createWSServer(server, client) {
     });
   });
 
-
+  // Nya meddelanden → skickas till frontend
   client.on("messageCreate", msg => {
-    console.log("MESSAGE EVENT:", msg.content);
     wss.broadcast({
       type: "message",
       channel: msg.channel.id,
@@ -40,6 +39,7 @@ function createWSServer(server, client) {
     });
   });
 
+  // Reactions från Discord → skickas till frontend
   client.on("messageReactionAdd", (reaction, user) => {
     wss.broadcast({
       type: "reaction",
@@ -50,43 +50,23 @@ function createWSServer(server, client) {
     });
   });
 
+  // WebSocket från frontend
   wss.on("connection", ws => {
     ws.on("message", async raw => {
       const data = JSON.parse(raw);
 
-      if (data.type === "typing") {
-        if (data.channel !== currentChannel) return;
-
-        typingEl.textContent = `${data.user} skriver...`;
-
-        clearTimeout(window._typingTimeout);
-        window._typingTimeout = setTimeout(() => {
-          typingEl.textContent = "";
-        }, 2000);
-      }
-
+      // Skicka meddelande från widget → Discord
       if (data.type === "send") {
         const channel = client.channels.cache.get(data.channel);
         await channel.send(data.content);
       }
 
+      // Reaction från widget → Discord
       if (data.type === "reaction") {
-        if (data.channel !== currentChannel) return;
-
-        // Hitta rätt meddelande
-        const msgEl = document.querySelector(`[data-id="${data.messageId}"]`);
-        if (!msgEl) return;
-
-        // Hitta reaction-barens container
-        const reactionsEl = msgEl.querySelector(".discord-reactions");
-        if (!reactionsEl) return;
-
-        // Lägg till reaction
-        const span = document.createElement("span");
-        span.textContent = data.emoji;
-        reactionsEl.appendChild(span);
+        const channel = client.channels.cache.get(data.channel);
+        const message = await channel.messages.fetch(data.messageId);
+        await message.react(data.emoji);
       }
-      
     });
   });
 
