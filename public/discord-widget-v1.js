@@ -16,6 +16,7 @@
     flags: ["🇸🇪","🇺🇸","🇬🇧","🇩🇰","🇫🇮","🇳🇴","🇩🇪","🇫🇷"]
   };
 
+
   container.innerHTML = `
     <div id="discord-wrapper">
       <div id="discord-sidebar">
