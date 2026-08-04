@@ -28,9 +28,12 @@
 
   let currentChannel = channels[0].id;
 
-  channelSelect.addEventListener("change", () => {
+  // ⭐ Ladda historik vid start
+  await loadHistory(currentChannel);
+
+  channelSelect.addEventListener("change", async () => {
     currentChannel = channelSelect.value;
-    messagesEl.innerHTML = "";
+    await loadHistory(currentChannel);
   });
 
   // WebSocket
@@ -40,21 +43,8 @@
     const data = JSON.parse(event.data);
 
     if (data.type === "message") {
-      // ⭐ Visa bara meddelanden för aktiv kanal
       if (data.channel !== currentChannel) return;
-
-      const msg = document.createElement("div");
-      msg.className = "discord-message";
-
-      msg.innerHTML = `
-        <img class="discord-avatar" src="${data.author.avatar}" />
-        <div class="discord-content">
-          <div class="discord-author">${data.author.name}</div>
-          <div>${data.content}</div>
-        </div>
-      `;
-
-      messagesEl.appendChild(msg);
+      renderMessage(data);
       messagesEl.scrollTop = messagesEl.scrollHeight;
     }
   };
@@ -70,4 +60,34 @@
       inputEl.value = "";
     }
   });
+
+  // ⭐ Flyttad in i scopet
+  async function loadHistory(channelId) {
+    const res = await fetch(`${API_URL}/messages/${channelId}`);
+    const history = await res.json();
+
+    messagesEl.innerHTML = "";
+
+    history.forEach(msg => {
+      renderMessage(msg);
+    });
+
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  // ⭐ Flyttad in i scopet
+  function renderMessage(data) {
+    const msg = document.createElement("div");
+    msg.className = "discord-message";
+
+    msg.innerHTML = `
+      <img class="discord-avatar" src="${data.author.avatar}" />
+      <div class="discord-content">
+        <div class="discord-author">${data.author.name}</div>
+        <div>${data.content}</div>
+      </div>
+    `;
+
+    messagesEl.appendChild(msg);
+  }
 })();

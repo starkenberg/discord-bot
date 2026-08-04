@@ -35,6 +35,25 @@ app.get("/channels", async (req, res) => {
   res.json(channels);
 });
 
+app.get("/messages/:channelId", async (req, res) => {
+  const channel = await client.channels.fetch(req.params.channelId);
+  const messages = await channel.messages.fetch({ limit: 50 });
+
+  const formatted = messages.map(m => ({
+    id: m.id,
+    author: {
+      id: m.author.id,
+      name: m.author.username,
+      avatar: m.author.displayAvatarURL()
+    },
+    content: m.content,
+    timestamp: m.createdTimestamp
+  }));
+
+  res.json(formatted.reverse());
+});
+
+
 client.once("ready", () => {
   console.log("Discord bot is ready, starting WebSocket server...");
   createWSServer(server, client);
