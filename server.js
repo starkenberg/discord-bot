@@ -35,6 +35,8 @@ app.get("/channels", async (req, res) => {
   res.json(channels);
 });
 
+createWSServer(server, client);
+
 // Port
 const PORT = process.env.PORT || 3001;
 
