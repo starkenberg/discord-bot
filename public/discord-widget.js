@@ -39,6 +39,8 @@
   const messagesEl = document.getElementById("discord-messages");
   const inputEl = document.getElementById("discord-input");
   const channelListEl = document.getElementById("discord-channel-list");
+  const channelTitleEl = document.getElementById("discord-channel-title");
+  const channelTopicEl = document.getElementById("discord-channel-topic");
 
   // Hämta kanaler
   const channels = await fetch(API_URL + "/channels").then(r => r.json());
@@ -103,6 +105,8 @@
     channelListEl.appendChild(el);
 
   });
+
+  updateHeader(currentChannel);
 
   // Ladda historik vid start
   await loadHistory(currentChannel);
@@ -170,8 +174,21 @@
   });
 
   // Funktioner
+  function updateHeader(channelId) {
+    const ch = channels.find(c => c.id === channelId);
+
+      if (!ch) return;
+
+      channelTitleEl.textContent = "# " + ch.name;
+      channelTopicEl.textContent = ch.parentName || "";
+
+    }
+  
   async function selectChannel(id) {
     currentChannel = id;
+
+    updateHeader(id);
+
     await loadHistory(id);
   }
 
