@@ -1,7 +1,12 @@
 const WebSocket = require("ws");
 
 function createWSServer(server, client) {
-  const wss = new WebSocket.Server({ server });
+  const wss = new WebSocket.Server({
+    server,
+    verifyClient: (info, done) => {
+      done(true); // tillåt alla origins, även http://localhost
+    }
+  });
 
   wss.broadcast = function (data) {
     const json = JSON.stringify(data);
