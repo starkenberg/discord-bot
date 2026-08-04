@@ -23,7 +23,10 @@
       <div id="discord-sidebar">
         <div id="discord-channel-list"></div>
       </div>
-      <div id="discord-chat-area">
+      <div id="discord-chat-header">
+        <div id="discord-channel-title"></div>
+        <div id="discord-channel-topic"></div>
+      </div>
         <div id="discord-messages"></div>
         <div id="discord-typing"></div>
         <div id="discord-input-area">
