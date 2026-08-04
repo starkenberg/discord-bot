@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const http = require("http");
+const cors = require("cors");
 const client = require("./bot");
 const createWSServer = require("./ws");
 
