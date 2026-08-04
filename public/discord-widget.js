@@ -4,6 +4,7 @@
 
   // DOM - Elements
   const container = document.getElementById("discord-chat");
+  const requestedChannel = container.dataset.channel || null;
   const typingEl = document.getElementById("discord-typing");
 
   const EMOJI_SETS = {
@@ -38,15 +39,49 @@
   // Hämta kanaler
   const channels = await fetch(API_URL + "/channels").then(r => r.json());
 
-  let currentChannel = channels[0].id;
+  let currentChannel;
+
+  if (requestedChannel) {
+
+    const found = channels.find(c =>
+      c.name.toLowerCase() === requestedChannel.toLowerCase()
+    );
+
+    if (found) {
+      currentChannel = found.id;
+    }
+  }
+
+  if (!currentChannel) {
+    currentChannel = channels[0].id;
+  }
 
   // Bygg kanal-lista i sidebar
   channels.forEach(ch => {
+
     const el = document.createElement("div");
+
     el.className = "channel-item";
+
+    if (ch.id === currentChannel) {
+        el.classList.add("active");
+    }
+
     el.textContent = "#" + ch.name;
-    el.onclick = () => selectChannel(ch.id);
+
+    el.onclick = () => {
+
+        document
+          .querySelectorAll(".channel-item")
+          .forEach(x => x.classList.remove("active"));
+
+        el.classList.add("active");
+
+        selectChannel(ch.id);
+    };
+
     channelListEl.appendChild(el);
+
   });
 
   // Ladda historik vid start
