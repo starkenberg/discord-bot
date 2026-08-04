@@ -1,4 +1,5 @@
 require("dotenv").config();
+
 const {
   Client,
   GatewayIntentBits,
@@ -13,16 +14,13 @@ const client = new Client({
     GatewayIntentBits.GuildMessageTyping,
     GatewayIntentBits.MessageContent
   ],
-
   partials: [
     Partials.Message,
     Partials.Channel,
     Partials.Reaction
   ]
+});
 
 client.login(process.env.BOT_TOKEN);
-client.once("ready", () => {
-    console.log(`Logged in as ${client.user.tag}`);
-});
 
 module.exports = client;
