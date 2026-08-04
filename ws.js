@@ -4,7 +4,8 @@ function createWSServer(server, client) {
   const wss = new WebSocket.Server({
     server,
     verifyClient: (info, done) => {
-      done(true); // tillåt alla origins, även http://localhost
+      // Tillåt ALLA origins, även http://localhost
+      done(true);
     }
   });
 
