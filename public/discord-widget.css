@@ -4,15 +4,15 @@
 
 :root{
 
-    --discord-bg:#313338;
-    --discord-bg-dark:#2b2d31;
-    --discord-sidebar:#202225;
-    --discord-input:#40444b;
+    --discord-bg:.313338;
+    --discord-bg-dark:.2b2d31;
+    --discord-sidebar:.202225;
+    --discord-input:.40444b;
 
-    --discord-text:#ffffff;
-    --discord-text-muted:#b5bac1;
+    --discord-text:.ffffff;
+    --discord-text-muted:.b5bac1;
 
-    --discord-border:#3f4147;
+    --discord-border:.3f4147;
 
     --discord-radius:6px;
 
@@ -34,7 +34,7 @@
    Wrapper
    ========================================================================== */
 
-#discord-wrapper{
+.discord-wrapper{
 
     display:flex;
 
@@ -55,7 +55,7 @@
    Sidebar
    ========================================================================== */
 
-#discord-sidebar{
+.discord-sidebar{
 
     width:240px;
 
@@ -69,7 +69,7 @@
 
 }
 
-#discord-channel-list{
+.discord-channel-list{
 
     display:flex;
 
@@ -103,9 +103,9 @@
 
 .channel-item.active{
 
-    background:#404249;
+    background:.404249;
 
-    color:#fff;
+    color:.fff;
 
 }
 
@@ -113,7 +113,7 @@
    Chat Area
    ========================================================================== */
 
-#discord-chat-area{
+.discord-chat-area{
 
     flex:1;
 
@@ -131,7 +131,7 @@
    Header
    ========================================================================== */
 
-#discord-chat-header{
+.discord-chat-header{
 
     flex-shrink:0;
 
@@ -143,7 +143,7 @@
 
 }
 
-#discord-channel-title{
+.discord-channel-title{
 
     font-size:18px;
 
@@ -151,7 +151,7 @@
 
 }
 
-#discord-channel-topic{
+.discord-channel-topic{
 
     margin-top:4px;
 
@@ -165,7 +165,7 @@
    Messages
    ========================================================================== */
 
-#discord-messages{
+.discord-messages{
 
     flex:1;
 
@@ -218,7 +218,7 @@
    Typing
    ========================================================================== */
 
-#discord-typing{
+.discord-typing{
 
     flex-shrink:0;
 
@@ -238,7 +238,7 @@
    Input
    ========================================================================== */
 
-#discord-input-area{
+.discord-input-area{
 
     flex-shrink:0;
 
@@ -250,7 +250,7 @@
 
 }
 
-#discord-input{
+.discord-input{
 
     width:100%;
 
@@ -264,13 +264,13 @@
 
     background:var(--discord-input);
 
-    color:#fff;
+    color:.fff;
 
     outline:none;
 
 }
 
-#discord-input::placeholder{
+.discord-input::placeholder{
 
     color:var(--discord-text-muted);
 
@@ -304,7 +304,7 @@
 
     padding:3px 8px;
 
-    background:#3a3c43;
+    background:.3a3c43;
 
     border-radius:999px;
 
@@ -336,7 +336,7 @@
 
     height:24px;
 
-    background:#3a3c43;
+    background:.3a3c43;
 
     border-radius:999px;
 
@@ -348,7 +348,7 @@
 
 .reaction-add:hover{
 
-    background:#4b4d55;
+    background:.4b4d55;
 
 }
 
@@ -430,7 +430,7 @@
 
 .emoji-categories button:hover{
 
-    background:#50545d;
+    background:.50545d;
 
 }
 
@@ -474,19 +474,19 @@
    Scrollbars
    ========================================================================== */
 
-#discord-sidebar::-webkit-scrollbar,
-#discord-messages::-webkit-scrollbar,
+.discord-sidebar::-webkit-scrollbar,
+.discord-messages::-webkit-scrollbar,
 .emoji-grid::-webkit-scrollbar{
 
     width:8px;
 
 }
 
-#discord-sidebar::-webkit-scrollbar-thumb,
-#discord-messages::-webkit-scrollbar-thumb,
+.discord-sidebar::-webkit-scrollbar-thumb,
+.discord-messages::-webkit-scrollbar-thumb,
 .emoji-grid::-webkit-scrollbar-thumb{
 
-    background:#1e1f22;
+    background:.1e1f22;
 
     border-radius:20px;
 
