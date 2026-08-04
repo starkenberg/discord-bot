@@ -6,35 +6,38 @@
   const container = document.getElementById("discord-chat");
   container.innerHTML = `
     <div id="discord-wrapper">
-      <select id="discord-channel-select"></select>
-      <div id="discord-messages"></div>
-      <input id="discord-input" placeholder="Skriv ett meddelande..." />
+      <div id="discord-sidebar">
+        <div id="discord-channel-list"></div>
+      </div>
+      <div id="discord-chat-area">
+        <div id="discord-messages"></div>
+        <div id="discord-input-area">
+          <input id="discord-input" placeholder="Skriv ett meddelande..." />
+        </div>
+      </div>
     </div>
   `;
 
   const messagesEl = document.getElementById("discord-messages");
   const inputEl = document.getElementById("discord-input");
-  const channelSelect = document.getElementById("discord-channel-select");
+  const channelListEl = document.getElementById("discord-channel-list");
 
   // Hämta kanaler
   const channels = await fetch(API_URL + "/channels").then(r => r.json());
 
-  channels.forEach(ch => {
-    const opt = document.createElement("option");
-    opt.value = ch.id;
-    opt.textContent = ch.name;
-    channelSelect.appendChild(opt);
-  });
-
   let currentChannel = channels[0].id;
 
-  // ⭐ Ladda historik vid start
-  await loadHistory(currentChannel);
-
-  channelSelect.addEventListener("change", async () => {
-    currentChannel = channelSelect.value;
-    await loadHistory(currentChannel);
+  // Bygg kanal-lista i sidebar
+  channels.forEach(ch => {
+    const el = document.createElement("div");
+    el.className = "channel-item";
+    el.textContent = "#" + ch.name;
+    el.onclick = () => selectChannel(ch.id);
+    channelListEl.appendChild(el);
   });
+
+  // Ladda historik vid start
+  await loadHistory(currentChannel);
 
   // WebSocket
   const ws = new WebSocket(WS_URL);
@@ -61,7 +64,12 @@
     }
   });
 
-  // ⭐ Flyttad in i scopet
+  // Funktioner
+  async function selectChannel(id) {
+    currentChannel = id;
+    await loadHistory(id);
+  }
+
   async function loadHistory(channelId) {
     const res = await fetch(`${API_URL}/messages/${channelId}`);
     const history = await res.json();
@@ -75,7 +83,6 @@
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
 
-  // ⭐ Flyttad in i scopet
   function renderMessage(data) {
     const msg = document.createElement("div");
     msg.className = "discord-message";
