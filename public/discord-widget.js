@@ -2,7 +2,7 @@
   const API_URL = "https://discord-bot-vcu3.onrender.com";
   const WS_URL = "wss://discord-bot-vcu3.onrender.com";
 
-  // DOM
+  // DOM - Elements
   const container = document.getElementById("discord-chat");
   const typingEl = document.getElementById("discord-typing");
 
