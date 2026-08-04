@@ -285,8 +285,7 @@
 
             });
 
-            this.messagesEl.scrollTop =
-                this.messagesEl.scrollHeight;
+            this.scrollBottom();
 
         }
 
@@ -327,6 +326,17 @@
             `;
 
             this.messagesEl.appendChild(msg);
+
+        }
+
+        /**
+         * scrollBottom - Scrollar till sista meddelandet.
+         * 
+         */
+        scrollBottom(){
+
+            this.messagesEl.scrollTop =
+                this.messagesEl.scrollHeight;
 
         }
 
@@ -396,7 +406,12 @@
          */
         handleMessage(data){
 
-            console.log("Message", data);
+            if(data.channel !== this.currentChannel)
+                return;
+
+            this.renderMessage(data);
+
+            this.scrollBottom();
 
         }
 
@@ -405,7 +420,19 @@
          */
         handleTyping(data){
 
-            console.log("Typing", data);
+            if(data.channel !== this.currentChannel)
+                return;
+
+            this.typingEl.textContent =
+                `${data.user} skriver...`;
+
+            clearTimeout(this.typingTimeout);
+
+            this.typingTimeout = setTimeout(() => {
+
+                this.typingEl.textContent = "";
+
+            }, 2000);
 
         }
 
