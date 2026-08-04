@@ -42,6 +42,7 @@ function createWSServer(server, client) {
 
   // Reactions från Discord → skickas till frontend
   client.on("messageReactionAdd", (reaction, user) => {
+    console.log("[REACTION]", reaction.emoji.name, reaction.message.id);
     wss.broadcast({
       type: "reaction",
       channel: reaction.message.channel.id,
