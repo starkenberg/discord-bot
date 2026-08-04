@@ -38,7 +38,11 @@
 
   ws.onmessage = event => {
     const data = JSON.parse(event.data);
+
     if (data.type === "message") {
+      // ⭐ Visa bara meddelanden för aktiv kanal
+      if (data.channel !== currentChannel) return;
+
       const msg = document.createElement("div");
       msg.className = "discord-message";
 
