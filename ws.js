@@ -29,6 +29,7 @@ function createWSServer(server, client) {
     wss.broadcast({
       type: "message",
       channel: msg.channel.id,
+      id: msg.id,
       author: {
         id: msg.author.id,
         name: msg.author.username,
