@@ -342,7 +342,7 @@
                         <div class="discord-reactions"></div>
 
                         <button
-                            class="reaction-add"
+                            class="discord-reaction-add"
                             type="button">
 
                             +
