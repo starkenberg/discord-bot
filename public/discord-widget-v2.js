@@ -37,6 +37,10 @@
 
             this.typingTimeout = null;
 
+            this.reactionPicker = null;
+
+            this.activeReactionMessage = null;
+
             this.buildUI();
 
             this.bindEvents();
@@ -65,13 +69,20 @@
 
             this.container.innerHTML = this.template();
 
-            this.cacheDOM(); 
+            this.cacheDOM();
+
+            this.reactionPicker = this.createReactionPicker();
+
+            this.container.appendChild(
+                this.reactionPicker
+            ); 
 
         }
 
         bindEvents(){
 
             // Input
+            this.bindInputEvents();
 
             // Buttons
 
@@ -354,12 +365,6 @@
                 </div>
 
             `;
-
-            const picker = this.createReactionPicker();
-
-            const reactionBar = msg.querySelector(".discord-reaction-bar");
-
-            reactionBar.appendChild(picker);
 
             return msg;
 
