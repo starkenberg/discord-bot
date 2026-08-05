@@ -79,7 +79,7 @@
 
 }
 
-.channel-item{
+.discord-channel-item{
 
     padding:10px 12px;
 
@@ -93,7 +93,7 @@
 
 }
 
-.channel-item:hover{
+.discord-channel-item:hover{
 
     background:var(--discord-bg);
 
@@ -101,11 +101,11 @@
 
 }
 
-.channel-item.active{
+.discord-channel-item.active{
 
-    background:.404249;
+    background:#404249;
 
-    color:.fff;
+    color:#fff;
 
 }
 
@@ -264,7 +264,7 @@
 
     background:var(--discord-input);
 
-    color:.fff;
+    color:#fff;
 
     outline:none;
 
@@ -324,7 +324,7 @@
 
 }
 
-.reaction-add{
+.discord-reaction-add{
 
     display:flex;
 
@@ -346,9 +346,9 @@
 
 }
 
-.reaction-add:hover{
+.discord-reaction-add:hover{
 
-    background:.4b4d55;
+    background:#4b4d55;
 
 }
 
@@ -362,9 +362,9 @@
 
     position:absolute;
 
-    bottom:36px;
+    bottom:calc(100% + 8px);
 
-    left:0;
+    left:50%;
 
     width:280px;
 
@@ -482,7 +482,7 @@
 
 .discord-sidebar::-webkit-scrollbar,
 .discord-messages::-webkit-scrollbar,
-.emoji-grid::-webkit-scrollbar{
+.discord-emoji-grid::-webkit-scrollbar{
 
     width:8px;
 
@@ -490,9 +490,9 @@
 
 .discord-sidebar::-webkit-scrollbar-thumb,
 .discord-messages::-webkit-scrollbar-thumb,
-.emoji-grid::-webkit-scrollbar-thumb{
+.discord-emoji-grid::-webkit-scrollbar-thumb{
 
-    background:.1e1f22;
+    background:#1e1f22;
 
     border-radius:20px;
 

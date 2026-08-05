@@ -357,7 +357,9 @@
 
             const picker = this.createReactionPicker();
 
-            msg.appendChild(picker);
+            const reactionBar = msg.querySelector(".discord-reaction-bar");
+
+            reactionBar.appendChild(picker);
 
             return msg;
 
