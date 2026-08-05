@@ -11,7 +11,6 @@ function createWSServer(server, client) {
   wss.broadcast = function (data) {
     const json = JSON.stringify(data);
     wss.clients.forEach(ws => {
-      console.log("ReadyState:", this.ws?.readyState);
       if (ws.readyState === WebSocket.OPEN) ws.send(json);
     });
   };
@@ -79,16 +78,19 @@ function createWSServer(server, client) {
               // Reaction från widget → Discord
               if(data.type === "reaction"){
 
-                  const channel =
-                      client.channels.cache.get(data.channel);
+                const channel = client.channels.cache.get(data.channel);
 
                   if(!channel)
-                      return;
+                    return;
+                console.time("reaction");
 
-                  const message =
-                      await channel.messages.fetch(data.messageId);
+                const message = await channel.messages.fetch(data.messageId);
 
-                  await message.react(data.emoji);
+                console.timeLog("reaction", "message fetched");
+
+                await message.react(data.emoji);
+
+                console.timeEnd("reaction");
 
               }
 
