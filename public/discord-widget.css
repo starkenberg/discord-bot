@@ -4,15 +4,15 @@
 
 :root{
 
-    --discord-bg:.313338;
-    --discord-bg-dark:.2b2d31;
-    --discord-sidebar:.202225;
-    --discord-input:.40444b;
+    --discord-bg:#313338;
+    --discord-bg-dark:#2b2d31;
+    --discord-sidebar:#202225;
+    --discord-input:#40444b;
 
-    --discord-text:.ffffff;
-    --discord-text-muted:.b5bac1;
+    --discord-text:#ffffff;
+    --discord-text-muted:#b5bac1;
 
-    --discord-border:.3f4147;
+    --discord-border:#3f4147;
 
     --discord-radius:6px;
 
