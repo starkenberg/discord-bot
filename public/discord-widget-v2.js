@@ -81,11 +81,11 @@
 
         bindEvents(){
 
-            // Input
+            document.addEventListener("click", () => {
 
-            // Buttons
+                this.closeReactionPicker();
 
-            // Keyboard
+            });
 
         }
 
@@ -396,6 +396,27 @@
 
             `;
 
+            picker.addEventListener("click", e => {
+
+                e.stopPropagation();
+
+                const emoji = e.target.dataset.emoji;
+
+                if(!emoji)
+                    return;
+
+                this.sendReaction(
+
+                    this.activeReactionMessage,
+
+                    emoji
+
+                );
+
+                this.closeReactionPicker();
+
+            });
+
             return picker;
 
         }
@@ -442,8 +463,6 @@
             const button =
                 messageElement.querySelector(".discord-add-reaction");
 
-            const picker = this.reactionPicker;
-
             button.addEventListener("click", e => {
 
                 e.stopPropagation();
@@ -455,40 +474,6 @@
                     messageElement.dataset.id
 
                 );
-
-            });
-
-            picker.addEventListener("click", e => {
-
-                e.stopPropagation();
-
-                const emoji = e.target.dataset.emoji;
-
-                if(!emoji)
-                    return;
-
-                if(this.ws?.readyState !== WebSocket.OPEN)
-                    return;
-
-                this.ws.send(JSON.stringify({
-
-                    type:"reaction",
-
-                    channel:this.currentChannel,
-
-                    messageId:messageElement.dataset.id,
-
-                    emoji
-
-                }));
-
-                picker.classList.remove("open");
-
-            });
-
-            document.addEventListener("click", () => {
-
-                picker.classList.remove("open");
 
             });
 
@@ -562,6 +547,37 @@
                 `${reaction.emoji} ${reaction.count}`;
 
             return badge;
+
+        }
+
+        /**
+         * Skickar en reaction till Discord.
+         */
+        sendReaction(messageId, emoji){
+
+            if(this.ws?.readyState !== WebSocket.OPEN)
+                return;
+
+            this.ws.send(JSON.stringify({
+
+                type: "reaction",
+
+                channel: this.currentChannel,
+
+                messageId,
+
+                emoji
+
+            }));
+
+        }
+
+        /**
+         * Stänger reaction-pickern.
+         */
+        closeReactionPicker(){
+
+            this.reactionPicker.classList.remove("open");
 
         }
 
