@@ -290,22 +290,34 @@
         }
 
         /**
-         * renderMessage - Bygger logik runt meddelanden 
-         * 
+         * Renderar ett Discord-meddelande.
          */
         renderMessage(data){
 
-            const msg =
-                document.createElement("div");
+            const element =
+                this.createMessageElement(data);
 
-            msg.className =
-                "discord-message";
+            this.messagesEl.appendChild(element);
+
+        }
+
+        /**
+         * createMessageElement - Skapar DOM-element för ett Discord-meddelande.
+         */
+        createMessageElement(data){
+
+            const msg = document.createElement("article");
+
+            msg.className = "discord-message";
+
+            msg.dataset.id = data.id;
 
             msg.innerHTML = `
 
                 <img
                     class="discord-avatar"
-                    src="${data.author.avatar}">
+                    src="${data.author.avatar}"
+                    alt="${data.author.name}">
 
                 <div class="discord-content">
 
@@ -315,9 +327,23 @@
 
                     </div>
 
-                    <div>
+                    <div class="discord-text">
 
                         ${data.content}
+
+                    </div>
+
+                    <div class="discord-reaction-bar">
+
+                        <div class="discord-reactions"></div>
+
+                        <button
+                            class="reaction-add"
+                            type="button">
+
+                            +
+
+                        </button>
 
                     </div>
 
@@ -325,7 +351,7 @@
 
             `;
 
-            this.messagesEl.appendChild(msg);
+            return msg;
 
         }
 
