@@ -82,7 +82,6 @@
         bindEvents(){
 
             // Input
-            this.bindInputEvents();
 
             // Buttons
 
@@ -335,6 +334,18 @@
                     alt="${data.author.name}">
 
                 <div class="discord-content">
+
+                    <div class="discord-message-toolbar">
+
+                        <button
+                            class="discord-add-reaction"
+                            type="button">
+
+                            😊
+
+                        </button>
+
+                    </div>
 
                     <div class="discord-author">
 

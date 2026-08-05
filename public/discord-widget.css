@@ -127,6 +127,80 @@
 
 }
 
+
+/* ==========================================================================
+   Message Toolbar
+   ========================================================================== */
+
+.discord-message{
+
+    position:relative;
+
+}
+
+.discord-message-toolbar{
+
+    position:absolute;
+
+    top:0;
+
+    right:0;
+
+    display:none;
+
+    align-items:center;
+
+    gap:6px;
+
+    padding:4px;
+
+    background:var(--discord-bg-dark);
+
+    border:1px solid var(--discord-border);
+
+    border-radius:8px;
+
+}
+
+.discord-message:hover .discord-message-toolbar{
+
+    display:flex;
+
+}
+
+.discord-add-reaction{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    width:28px;
+
+    height:28px;
+
+    border:none;
+
+    background:transparent;
+
+    color:var(--discord-text-muted);
+
+    cursor:pointer;
+
+    border-radius:6px;
+
+}
+
+.discord-add-reaction:hover{
+
+    background:var(--discord-input);
+
+    color:white;
+
+}
+
+
 /* ==========================================================================
    Header
    ========================================================================== */
