@@ -448,7 +448,13 @@
 
                 e.stopPropagation();
 
-                picker.classList.toggle("open");
+                this.openReactionPicker(
+
+                    button,
+
+                    messageElement.dataset.id
+
+                );
 
             });
 
@@ -485,6 +491,17 @@
                 picker.classList.remove("open");
 
             });
+
+        }
+
+        /**
+         * Öppnar den globala reaction-pickern.
+         */
+        openReactionPicker(button, messageId){
+
+            this.activeReactionMessage = messageId;
+
+            this.reactionPicker.classList.add("open");
 
         }
 
