@@ -363,14 +363,6 @@
 
                         <div class="discord-reactions"></div>
 
-                        <button
-                            class="discord-reaction-add"
-                            type="button">
-
-                            +
-
-                        </button>
-
                     </div>
 
                 </div>
@@ -448,7 +440,7 @@
         bindMessageEvents(messageElement){
 
             const button =
-                messageElement.querySelector(".discord-reaction-add");
+                messageElement.querySelector(".discord-add-reaction");
 
             const picker = this.reactionPicker;
 
