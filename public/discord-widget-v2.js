@@ -208,7 +208,7 @@
 
                 const el = document.createElement("div");
 
-                el.className = "channel-item";
+                el.className = "discord-channel-item";
 
                 if(ch.id === this.currentChannel){
 
@@ -432,7 +432,7 @@
         bindMessageEvents(messageElement){
 
             const button =
-                messageElement.querySelector(".reaction-add");
+                messageElement.querySelector(".discord-reaction-add");
 
             const picker =
                 messageElement.querySelector(".discord-emoji-picker");
