@@ -57,6 +57,8 @@
 
             this.connectWebSocket();
 
+            this.bindInputEvents();
+
         }
 
         buildUI(){
@@ -385,6 +387,40 @@
             `;
 
             return picker;
+
+        }
+
+        /**
+         * Kopplar events till inputfältet.
+         */
+        bindInputEvents(){
+
+            this.inputEl.addEventListener("keydown", e => {
+
+                if(e.key !== "Enter")
+                    return;
+
+                const content = this.inputEl.value.trim();
+
+                if(!content)
+                    return;
+
+                if(this.ws?.readyState !== WebSocket.OPEN)
+                    return;
+
+                this.ws.send(JSON.stringify({
+
+                    type: "send",
+
+                    channel: this.currentChannel,
+
+                    content
+
+                }));
+
+                this.inputEl.value = "";
+
+            });
 
         }
 
