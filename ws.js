@@ -54,22 +54,51 @@ function createWSServer(server, client) {
 
   // WebSocket från frontend
   wss.on("connection", ws => {
-    ws.on("message", async raw => {
-      const data = JSON.parse(raw);
 
-      // Skicka meddelande från widget → Discord
-      if (data.type === "send") {
-        const channel = client.channels.cache.get(data.channel);
-        await channel.send(data.content);
-      }
+      ws.on("message", async raw => {
 
-      // Reaction från widget → Discord
-      if (data.type === "reaction") {
-        const channel = client.channels.cache.get(data.channel);
-        const message = await channel.messages.fetch(data.messageId);
-        await message.react(data.emoji);
-      }
-    });
+          try{
+
+              const data = JSON.parse(raw);
+
+              // Skicka meddelande från widget → Discord
+              if(data.type === "send"){
+
+                  const channel =
+                      client.channels.cache.get(data.channel);
+
+                  if(!channel)
+                      return;
+
+                  await channel.send(data.content);
+
+              }
+
+              // Reaction från widget → Discord
+              if(data.type === "reaction"){
+
+                  const channel =
+                      client.channels.cache.get(data.channel);
+
+                  if(!channel)
+                      return;
+
+                  const message =
+                      await channel.messages.fetch(data.messageId);
+
+                  await message.react(data.emoji);
+
+              }
+
+          }
+          catch(error){
+
+              console.error("[WebSocket]", error);
+
+          }
+
+      });
+
   });
 
   return wss;

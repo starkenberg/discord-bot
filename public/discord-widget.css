@@ -353,10 +353,10 @@
 }
 
 /* ==========================================================================
-   Emoji Picker
+   Reaction Picker
    ========================================================================== */
 
-.emoji-picker{
+.discord-emoji-picker{
 
     display:none;
 
@@ -382,7 +382,13 @@
 
 }
 
-.emoji-search{
+.discord-emoji-picker.open{
+
+    display:block;
+
+}
+
+.discord-emoji-search{
 
     width:100%;
 
@@ -402,7 +408,7 @@
 
 }
 
-.emoji-categories{
+.discord-emoji-categories{
 
     display:flex;
 
@@ -412,7 +418,7 @@
 
 }
 
-.emoji-categories button{
+.discord-emoji-categories button{
 
     background:var(--discord-input);
 
@@ -428,13 +434,13 @@
 
 }
 
-.emoji-categories button:hover{
+.discord-emoji-categories button:hover{
 
-    background:.50545d;
+    background:#50545d;
 
 }
 
-.emoji-grid{
+.discord-emoji-grid{
 
     display:grid;
 
@@ -448,7 +454,7 @@
 
 }
 
-.emoji-grid span{
+.discord-emoji-grid span{
 
     display:flex;
 
@@ -464,7 +470,7 @@
 
 }
 
-.emoji-grid span:hover{
+.discord-emoji-grid span:hover{
 
     transform:scale(1.2);
 

@@ -295,6 +295,8 @@
         renderMessage(data){
             const element = this.createMessageElement(data);
 
+            this.bindMessageEvents(element);
+
             this.renderReactions(element, data);
 
             this.messagesEl.appendChild(element)
@@ -351,7 +353,93 @@
 
             `;
 
+            const picker = this.createReactionPicker();
+
+            msg.appendChild(picker);
+
             return msg;
+
+        }
+
+        /**
+         * createReactionPicker - Skapar emoji-picker.
+         */
+        createReactionPicker(){
+
+            const picker = document.createElement("div");
+
+            picker.className = "discord-emoji-picker";
+
+            picker.innerHTML = `
+
+                <div class="discord-emoji-grid">
+
+                    <span data-emoji="😀">😀</span>
+                    <span data-emoji="😂">😂</span>
+                    <span data-emoji="😍">😍</span>
+                    <span data-emoji="❤️">❤️</span>
+                    <span data-emoji="🔥">🔥</span>
+
+                </div>
+
+            `;
+
+            return picker;
+
+        }
+
+        /**
+         * bindMessageEvents - Kopplar events till ett meddelande.
+         */
+        bindMessageEvents(messageElement){
+
+            const button =
+                messageElement.querySelector(".reaction-add");
+
+            const picker =
+                messageElement.querySelector(".discord-emoji-picker");
+
+            button.addEventListener("click", e => {
+
+                e.stopPropagation();
+
+                picker.classList.toggle("open");
+
+            });
+
+            picker.addEventListener("click", e => {
+
+                e.stopPropagation();
+
+                const emoji = e.target.dataset.emoji;
+
+                if(!emoji)
+                    return;
+
+                if(this.ws?.readyState !== WebSocket.OPEN)
+                    return;
+
+                this.ws.send(JSON.stringify({
+
+                    type:"reaction",
+
+                    channel:this.currentChannel,
+
+                    messageId:messageElement.dataset.id,
+
+                    emoji
+
+                }));
+
+                picker.classList.remove("open");
+
+            });
+
+            document.addEventListener("click", () => {
+
+                picker.classList.remove("open");
+
+            });
 
         }
 
