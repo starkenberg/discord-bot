@@ -450,8 +450,7 @@
             const button =
                 messageElement.querySelector(".discord-reaction-add");
 
-            const picker =
-                messageElement.querySelector(".discord-emoji-picker");
+            const picker = this.reactionPicker;
 
             button.addEventListener("click", e => {
 
