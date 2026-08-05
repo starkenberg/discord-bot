@@ -11,6 +11,7 @@ function createWSServer(server, client) {
   wss.broadcast = function (data) {
     const json = JSON.stringify(data);
     wss.clients.forEach(ws => {
+      console.log("ReadyState:", this.ws?.readyState);
       if (ws.readyState === WebSocket.OPEN) ws.send(json);
     });
   };
@@ -60,6 +61,7 @@ function createWSServer(server, client) {
           try{
 
               const data = JSON.parse(raw);
+              console.log("[WS IN]", data);
 
               // Skicka meddelande från widget → Discord
               if(data.type === "send"){
