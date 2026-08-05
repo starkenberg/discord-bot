@@ -293,11 +293,11 @@
          * Renderar ett Discord-meddelande.
          */
         renderMessage(data){
+            const element = this.createMessageElement(data);
 
-            const element =
-                this.createMessageElement(data);
+            this.renderReactions(element, data);
 
-            this.messagesEl.appendChild(element);
+            this.messagesEl.appendChild(element)
 
         }
 
@@ -356,13 +356,77 @@
         }
 
         /**
+         * Renderar alla reactions för ett meddelande.
+         */
+        renderReactions(messageElement, data){
+
+            if(!data.reactions?.length)
+                return
+
+            const container = messageElement.querySelector(".discord-reactions");
+
+            data.reactions.forEach(reaction => {
+
+                container.appendChild(
+                    this.renderReaction(reaction)
+                );
+
+            });
+
+        }
+
+
+        /**
+         * Renderar en enskild reaction.
+         */
+        renderReaction(reaction){
+
+            const badge = document.createElement("span");
+
+            badge.className = "discord-reaction";
+
+            badge.dataset.emoji = reaction.emoji;
+
+            badge.textContent =
+                `${reaction.emoji} ${reaction.count}`;
+
+            return badge;
+
+        }
+
+        /**
+         * updateReaction
+         * 
+         * Uppdaterar en befintlig reaction eller skapar en ny
+         * om emojin inte redan finns på meddelandet.
+         */
+        updateReaction(container, data){
+
+            let badge = container.querySelector(
+                `[data-emoji="${data.emoji}"]`
+            );
+
+            if(!badge){
+
+                badge = this.renderReaction(data);
+
+                container.appendChild(badge);
+
+                return;
+
+            }
+
+            badge.textContent = `${data.emoji} ${data.count}`;
+
+        }
+
+        /**
          * scrollBottom - Scrollar till sista meddelandet.
          * 
          */
         scrollBottom(){
 
-            this.messagesEl.scrollTop =
-                this.messagesEl.scrollHeight;
+            this.messagesEl.scrollTop = this.messagesEl.scrollHeight;
 
         }
 
@@ -463,11 +527,30 @@
         }
 
         /**
-         * Hanterar reactions.
+         * Hanterar inkommande reactions från WebSocket.
          */
         handleReaction(data){
 
-            console.log("Reaction", data);
+            if(data.channel !== this.currentChannel)
+                return;
+
+            const messageElement = this.messagesEl.querySelector(
+                `[data-id="${data.messageId}"]`
+            );
+
+            if(!messageElement)
+                return;
+
+            const reactionsContainer =
+                messageElement.querySelector(".discord-reactions");
+
+            if(!reactionsContainer)
+                return;
+
+            this.updateReaction(
+                reactionsContainer,
+                data
+            );
 
         }
 
