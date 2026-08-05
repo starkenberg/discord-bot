@@ -436,23 +436,19 @@
 
     position:absolute;
 
-    bottom:calc(100% + 8px);
+    width:300px;
 
-    left:50%;
-
-    width:280px;
-
-    background:var(--discord-bg);
+    background:var(--discord-bg-dark);
 
     border:1px solid var(--discord-border);
 
     border-radius:10px;
 
-    padding:10px;
+    padding:12px;
 
-    box-shadow:0 8px 30px rgba(0,0,0,.45);
+    box-shadow:0 12px 32px rgba(0,0,0,.45);
 
-    z-index:999;
+    z-index:1000;
 
 }
 
@@ -462,65 +458,13 @@
 
 }
 
-.discord-emoji-search{
-
-    width:100%;
-
-    padding:8px;
-
-    border:none;
-
-    border-radius:6px;
-
-    background:var(--discord-input);
-
-    color:white;
-
-    margin-bottom:10px;
-
-    outline:none;
-
-}
-
-.discord-emoji-categories{
-
-    display:flex;
-
-    gap:4px;
-
-    margin-bottom:10px;
-
-}
-
-.discord-emoji-categories button{
-
-    background:var(--discord-input);
-
-    color:white;
-
-    border:none;
-
-    border-radius:6px;
-
-    padding:5px 8px;
-
-    cursor:pointer;
-
-}
-
-.discord-emoji-categories button:hover{
-
-    background:#50545d;
-
-}
-
 .discord-emoji-grid{
 
     display:grid;
 
-    grid-template-columns:repeat(6,1fr);
+    grid-template-columns:repeat(7,1fr);
 
-    gap:8px;
+    gap:6px;
 
     max-height:220px;
 
@@ -536,6 +480,10 @@
 
     justify-content:center;
 
+    width:36px;
+
+    height:36px;
+
     font-size:22px;
 
     cursor:pointer;
@@ -546,7 +494,9 @@
 
 .discord-emoji-grid span:hover{
 
-    transform:scale(1.2);
+    background:var(--discord-input);
+
+    transform:scale(1.08);
 
 }
 

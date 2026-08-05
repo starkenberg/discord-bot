@@ -501,7 +501,28 @@
 
             this.activeReactionMessage = messageId;
 
+            this.positionReactionPicker(button);
+
             this.reactionPicker.classList.add("open");
+
+        }
+
+        /**
+         * Positionerar reaction-pickern.
+         */
+        positionReactionPicker(button){
+
+            const buttonRect =
+                button.getBoundingClientRect();
+
+            const widgetRect =
+                this.container.getBoundingClientRect();
+
+            this.reactionPicker.style.left =
+                `${buttonRect.left - widgetRect.left}px`;
+
+            this.reactionPicker.style.top =
+                `${buttonRect.top - widgetRect.top - 12}px`;
 
         }
 
