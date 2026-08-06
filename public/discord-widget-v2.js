@@ -81,11 +81,11 @@
 
         bindEvents(){
 
-            document.addEventListener("click", () => {
+            /*document.addEventListener("click", () => {
 
                 this.closeReactionPicker();
 
-            });
+            });*/
 
         }
 
