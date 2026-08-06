@@ -338,10 +338,47 @@
                     <div class="discord-message-toolbar">
 
                         <button
-                            class="discord-add-reaction"
+                            class="discord-quick-reaction"
+                            data-emoji="👍"
                             type="button">
 
-                            😊
+                            👍
+
+                        </button>
+
+                        <button
+                            class="discord-quick-reaction"
+                            data-emoji="❤️"
+                            type="button">
+
+                            ❤️
+
+                        </button>
+
+                        <button
+                            class="discord-quick-reaction"
+                            data-emoji="😂"
+                            type="button">
+
+                            😂
+
+                        </button>
+
+                        <button
+                            class="discord-quick-reaction"
+                            data-emoji="🔥"
+                            type="button">
+
+                            🔥
+
+                        </button>
+
+                        <button
+                            class="discord-add-reaction"
+                            type="button"
+                            title="Fler reaktioner">
+
+                            😊+
 
                         </button>
 
@@ -463,6 +500,9 @@
             const button =
                 messageElement.querySelector(".discord-add-reaction");
 
+            const quickButtons =
+                messageElement.querySelectorAll(".discord-quick-reaction");
+
             button.addEventListener("click", e => {
 
                 e.stopPropagation();
@@ -474,6 +514,24 @@
                     messageElement.dataset.id
 
                 );
+
+            });
+
+            quickButtons.forEach(button => {
+
+                button.addEventListener("click", e => {
+
+                    e.stopPropagation();
+
+                    this.sendReaction(
+
+                        messageElement.dataset.id,
+
+                        button.dataset.emoji
+
+                    );
+
+                });
 
             });
 
@@ -530,7 +588,6 @@
             });
 
         }
-
 
         /**
          * Renderar en enskild reaction.
